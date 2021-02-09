@@ -12,22 +12,28 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      list: [
-        {
-          task: "Call Recruiter Back",
-          id: 12121,
-          completed: false
-        },
-        {
-          task: "Organize Desk",
-          id: 12130,
-          completed: false
-        },
-      ]
+      // list: [
+      //   {
+      //     task: "Call Recruiter Back",
+      //     id: 12121,
+      //     completed: false
+      //   },
+      //   {
+      //     task: "Organize Desk",
+      //     id: 12130,
+      //     completed: false
+      //   },
+      // ]
+      list: JSON.parse(localStorage.getItem("List") || "[]")
     }
   }
 
   // Handler Functions:
+  updateListStorage = () => {
+    const stringList = JSON.stringify(this.state.list);
+    localStorage.setItem('List', stringList);
+  };
+
   handleAdd = (newTask) => {
     const newItem = {
       task: newTask,
@@ -37,7 +43,7 @@ class App extends React.Component {
 
     this.setState({
       list: [...this.state.list, newItem]
-    })
+    }, this.updateListStorage)
   }
 
   handleComplete = (itemId) => {
@@ -56,7 +62,7 @@ class App extends React.Component {
     
     this.setState({
       list: newTodoList
-    });
+    }, this.updateListStorage);
   }
 
   handleClear = () => {
@@ -64,7 +70,7 @@ class App extends React.Component {
 
     this.setState({
       list: newTodoList
-    });
+    }, this.updateListStorage);
   }
 
   render() {
